@@ -16,8 +16,30 @@
       <tr>
         <td><input type="text" name="inputWriter" placeholder="작성자를 입력하세요."></td>
       </tr>
+      <tr>
+        <td><input type="text" name="inputContents" placeholder="내용을 입력하세요."</td>
+      </tr>
     </table>
     <input type="submit" value="전송하기">
   </form>
+
+  <table>
+    <tr>
+      <td>제목</td>
+      <td>작성자</td>
+      <td>내용</td>
+      <td>작성일</td>
+      <td>수정일</td>
+    </tr>
+    <% for(let post of posts) { %>
+    <tr>
+      <td><%= post.title %></td>
+      <td><%= post.writer %></td>
+      <td><%= post.contents %></td>
+      <td><%= post.created_at %></td>
+      <td><%= post.updated_at %></td>
+    </tr>
+  <%} %>
+  </table>
 </body>
 </html>

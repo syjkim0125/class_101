@@ -7,7 +7,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/show', function(req, res, next) {
-  res.render('show');
+  models.Post.findAll().then(result => {
+    res.render('show', {
+      posts: result
+    });
+  })
 });
 
 router.post('/create', function(req, res, next) {
@@ -15,7 +19,8 @@ router.post('/create', function(req, res, next) {
 
   models.Post.create({
     title: body.inputTitle,
-    writer: body.inputWriter
+    writer: body.inputWriter,
+    contents: body.inputContents
   })
   .then(result => {
     console.log("게시물이 성공적으로 작성되었습니다.");
