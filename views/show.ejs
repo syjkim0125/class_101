@@ -38,6 +38,13 @@
       <td><%= post.contents %></td>
       <td><%= post.created_at %></td>
       <td><%= post.updated_at %></td>
+      <td><button><a href="/edit/<%=post.id%>">수정하기</a></button></td>
+
+
+
+      <form action="/delete/<%=post.id%>?_method=DELETE" method="post">
+        <td><input type="submit" value="삭제하기"></input></td>
+      </form>
     </tr>
   <%} %>
   </table>
