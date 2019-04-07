@@ -19,16 +19,12 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   post.associate = function(models) {
-    post.hasMany(models.Comment, {
-      foreignKey: "post_id"
-    });
-  };
-
-  comment.associate = function(models) {
-    comment.belongsTo(models.User, {
-      foreignKey: "user_id"
+    post.hasMany(models.Comment)
+    post.belongsTo(models.User, {
+      foreignKey: "user_id",
+      targetKey: "id"
     })
   };
-  
+
   return post;
 }

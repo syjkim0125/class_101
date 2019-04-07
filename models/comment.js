@@ -16,13 +16,12 @@ module.exports = (sequelize, DataTypes) => {
 
   comment.associate = function(models) {
     comment.belongsTo(models.Post, {
-      foreignKey: "post_id"
+      foreignKey: "post_id",
+      targetKey: "id"
     })
-  };
-
-  comment.associate = function(models) {
     comment.belongsTo(models.User, {
-      foreignKey: "user_id"
+      foreignKey: "user_id",
+      targetKey: "id"
     })
   };
 

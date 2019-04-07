@@ -11,5 +11,10 @@ module.exports = function(sequelize, DataTypes) {
     freezeTableName: true,
     tableName: "user"
   });
+
+  user.associate = function(models) {
+    user.hasMany(models.Post);
+    user.hasMany(models.Comment);
+  };
   return user;
 }
