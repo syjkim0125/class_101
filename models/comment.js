@@ -1,27 +1,23 @@
-module.exports = function(sequelize, DataTypes) {
-  const post = sequelize.define("Post", {
-    title: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
+module.exports = (sequelize, DataTypes) => {
+  const comment = sequelize.define('Comment', {
     writer: {
       type: DataTypes.STRING,
       allowNull: false
     },
     contents: {
       type: DataTypes.TEXT,
-      allowNull: true
+      allowNull: false
     }
   }, {
     underscored: true,
     freezeTableName: true,
-    tableName: "post"
+    tableName: "comment"
   });
 
-  post.associate = function(models) {
-    post.hasMany(models.Comment, {
+  comment.associate = function(models) {
+    comment.belongsTo(models.Post, {
       foreignKey: "post_id"
-    });
+    })
   };
 
   comment.associate = function(models) {
@@ -29,6 +25,6 @@ module.exports = function(sequelize, DataTypes) {
       foreignKey: "user_id"
     })
   };
-  
-  return post;
+
+  return comment;
 }

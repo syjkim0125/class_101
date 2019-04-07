@@ -20,7 +20,7 @@
         <td><input type="text" name="inputContents" placeholder="내용을 입력하세요."</td>
       </tr>
     </table>
-    <input type="submit" value="전송하기">
+    <input type="submit" value="게시글 작성">
   </form>
 
   <table>
@@ -36,16 +36,34 @@
       <td><%= post.title %></td>
       <td><%= post.writer %></td>
       <td><%= post.contents %></td>
-      <td><%= post.created_at %></td>
-      <td><%= post.updated_at %></td>
+      <td><%= post.createdAt.getFullYear(); %> - <%= post.createdAt.getMonth(); %> - <%= post.createdAt.getDate(); %></td>
+      <td><%= post.updatedAt.getFullYear(); %> - <%= post.createdAt.getMonth(); %> - <%= post.createdAt.getDate(); %></td>
       <td><button><a href="/edit/<%=post.id%>">수정하기</a></button></td>
-
-
-
       <form action="/delete/<%=post.id%>?_method=DELETE" method="post">
         <td><input type="submit" value="삭제하기"></input></td>
       </form>
     </tr>
+    <tr>
+      <td><hr></td>
+    </tr>
+
+    <form action="/comment/<%=post.id%>" method="post">
+      <tr>
+        <td><input type="text" name="commentWriter" placeholder="작성자를 입력해주세요"></td>
+        <td><input type="text" name="commentContent" placeholder="내용을 입력해주세요"></td>
+      </tr>
+      <tr>
+        <td><input type="submit" value="댓글 등록"></td>
+      </tr>
+    </form>
+
+    <% if(post.replies){
+      for(let comment of post.replies){ %>
+        <tr>
+          <td><%= comment.dataValues.writer %></td>
+          <td><%= comment.dataValues.contents %></td>
+        </tr> <% } %>
+        <% } %>
   <%} %>
   </table>
 </body>

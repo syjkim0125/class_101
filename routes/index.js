@@ -14,6 +14,20 @@ router.get('/show', function(req, res, next) {
   })
 });
 
+router.get('/show/:id', function(req, res, next) {
+  let postID = req.params.id;
+  models.Post.findAll({
+    include: [{
+      model: models.Comment,
+      where: {post_id: postID}
+    }]
+  })
+  .then(result => {
+    res.status(200).json({status: true, result: result});
+  })
+});
+
+
 router.post('/create', function(req, res, next) {
   let body = req.body;
 
@@ -35,9 +49,8 @@ router.get('/edit/:id', function(req, res, next) {
   let postID = req.params.id;
 
   models.Post.findOne({
-    where: {
-      id: postID
-    }})
+    where: {id: postID}
+  })
     .then(result => {
       res.render('edit', {
         post: result
@@ -57,9 +70,8 @@ router.put('/update/:id', function(req, res, next) {
     writer: body.editWriter,
     contents: body.editContents
   },{
-    where: {
-      id: postID
-    }})
+    where: {id: postID}
+    })
     .then(result => {
       console.log("게시글이 수정되었습니다.");
       res.redirect('/show');
@@ -73,15 +85,31 @@ router.delete('/delete/:id', function(req, res, next) {
   let postID = req.params.id;
 
   models.Post.destroy({
-    where: {
-      id: postID
-    }})
+    where: {id: postID}
+    })
     .then(result => {
       res.redirect('/show')
     })
     .catch(err => {
       console.log("게시글 삭제를 실패했습니다.");
     });
+});
+
+router.post('/comment/:id', function(req, res, next) {
+  let postID = req.params.id;
+  let body = req.body;
+
+  models.Comment.create({
+    post_id: postID,
+    writer: body.commentWriter,
+    contents: body.commentContent
+  })
+  .then(result => {
+    res.redirect('/show');
+  })
+  .catch(err => {
+    console.log(err);
+  });
 });
 
 module.exports = router;
