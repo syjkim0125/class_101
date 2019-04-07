@@ -48,12 +48,20 @@ router.get('/userComments/:user_id', function(req, res, next) {
   })
 });
 
-router.get('/postComments/:post_id', function(req, res, next) {
+router.get('/postComments/:post_id/:page', function(req, res, next) {
   let postID = req.params.post_id;
-  models.Post.findAll({
+  let pageNum = req.params.page;
+  let offset = 0;
+
+  if (pageNum > 1) {
+    offset = 5 * (pageNum - 1);
+  }
+  models.Post.findOne({
     include: [{
       model: models.Comment,
-      where: {post_id: postID}
+      where: {post_id: postID},
+      offset: offset,
+      limit: 5
     }]
   })
   .then(result => {
