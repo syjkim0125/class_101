@@ -1,3 +1,13 @@
+import { GraphQLServer } from "graphql-yoga";
+import resolvers from "./graphql/resolvers";
+
+const server = new GraphQLServer({
+  typeDefs: "graphql/schema.graphql",
+  resolvers
+});
+
+server.start(() => console.log("GraphQL Server Running => port:4000"));
+
 let models = require("./models/index.js");
 
 models.sequelize.sync().then( () => {
@@ -51,5 +61,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+app.listen(3000, () => console.log('Now browse to localhost:3000 => Node.JS API'));
 
 module.exports = app;
